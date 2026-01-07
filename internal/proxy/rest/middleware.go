@@ -1,8 +1,11 @@
 package rest
 
 import (
+	"bufio"
 	"bytes"
+	"fmt"
 	"io"
+	"net"
 	"net/http"
 	"strings"
 	"time"
@@ -33,6 +36,14 @@ func (lrw *loggingResponseWriter) WriteHeader(code int) {
 func (lrw *loggingResponseWriter) Write(b []byte) (int, error) {
 	lrw.body.Write(b)
 	return lrw.ResponseWriter.Write(b)
+}
+
+// Hijack implements http.Hijacker interface for WebSocket support
+func (lrw *loggingResponseWriter) Hijack() (net.Conn, *bufio.ReadWriter, error) {
+	if hijacker, ok := lrw.ResponseWriter.(http.Hijacker); ok {
+		return hijacker.Hijack()
+	}
+	return nil, nil, fmt.Errorf("ResponseWriter does not implement http.Hijacker")
 }
 
 func LoggingMiddleware(logger *logging.RequestLogger, apiType string) func(http.Handler) http.Handler {
