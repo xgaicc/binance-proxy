@@ -168,4 +168,4 @@ binance-proxy/
 
 ## License
 
-MIT
+Proprietary - All Rights Reserved. See [LICENSE](LICENSE) for details.
