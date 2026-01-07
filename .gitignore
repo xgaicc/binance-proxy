@@ -4,8 +4,7 @@
 *.dll
 *.so
 *.dylib
-proxy
-binance-proxy
+/binance-proxy
 
 # Test binary
 *.test
