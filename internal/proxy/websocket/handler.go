@@ -99,8 +99,9 @@ func (h *Handler) proxyWebSocket(w http.ResponseWriter, r *http.Request, targetB
 		WriteBufferSize: 4096,
 	}
 
-	// Forward headers for authentication
+	// Set required headers for Binance WebSocket connection
 	headers := http.Header{}
+	headers.Set("Origin", "https://"+targetURL.Host)
 	if apiKey := r.Header.Get(binance.APIKeyHeader); apiKey != "" {
 		headers.Set(binance.APIKeyHeader, apiKey)
 	}
